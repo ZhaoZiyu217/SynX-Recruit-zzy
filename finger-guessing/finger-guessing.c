@@ -9,9 +9,9 @@ int main() {
     
     srand(time(NULL));
     
-    printf("=== 猜拳游戏（五局三胜制） ===\n");
+    printf("=== 猜拳游戏（三局两胜制） ===\n");
     
-    while (player_score < 3 && computer_score < 3 && round <= 5) {
+    while (player_score < 2 && computer_score < 2 && round <= 3) {
         printf("\n=== 第%d局 ===\n", round);
         printf("当前比分：玩家 %d - %d 电脑\n", player_score, computer_score);
         printf("请出拳：1-石头 2-剪刀 3-布\n");

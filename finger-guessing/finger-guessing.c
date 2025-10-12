@@ -3,35 +3,72 @@
 #include <time.h>
 
 int main() {
-    int user_choice, comp_choice;
-    // 初始化随机数种子，使每次随机结果不同
-    srand((unsigned int)time(NULL));
-
-    while (1) {
-        printf("欢迎来到猜拳小游戏！赢一次即退出，输或平继续\n");
-        printf("请出拳：1.剪刀 2.石头 3.布\n");
-        scanf("%d", &user_choice);
-
-        // 生成电脑的随机出拳（1 - 3）
-        comp_choice = rand() % 3 + 1;
-
-        printf("电脑出拳：");
-        if (comp_choice == 1) printf("剪刀\n");
-        else if (comp_choice == 2) printf("石头\n");
-        else printf("布\n");
-
-        // 判断胜负
-        if ((user_choice == 1 && comp_choice == 3) || 
-            (user_choice == 2 && comp_choice == 1) || 
-            (user_choice == 3 && comp_choice == 2)) {
-            printf("恭喜你赢了！游戏结束\n");
-            break; // 赢了就退出循环，结束游戏
-        } else if (user_choice == comp_choice) {
-            printf("平局！继续游戏\n");
-        } else {
-            printf("你输了！继续游戏\n");
+    int player_choice, computer_choice;
+    int player_score = 0, computer_score = 0;
+    int round = 1;
+    
+    srand(time(NULL));
+    
+    printf("=== 猜拳游戏（五局三胜制） ===\n");
+    
+    while (player_score < 3 && computer_score < 3 && round <= 5) {
+        printf("\n=== 第%d局 ===\n", round);
+        printf("当前比分：玩家 %d - %d 电脑\n", player_score, computer_score);
+        printf("请出拳：1-石头 2-剪刀 3-布\n");
+        printf("请输入你的选择：");
+        scanf("%d", &player_choice);
+        
+        // 验证输入
+        if (player_choice < 1 || player_choice > 3) {
+            printf("输入无效！请重新输入。\n");
+            continue;
         }
+        
+        // 电脑随机出拳
+        computer_choice = rand() % 3 + 1;
+        
+        // 显示双方选择
+        printf("你出了：");
+        switch(player_choice) {
+            case 1: printf("石头\n"); break;
+            case 2: printf("剪刀\n"); break;
+            case 3: printf("布\n"); break;
+        }
+        
+        printf("电脑出了：");
+        switch(computer_choice) {
+            case 1: printf("石头\n"); break;
+            case 2: printf("剪刀\n"); break;
+            case 3: printf("布\n"); break;
+        }
+        
+        // 判断胜负
+        if (player_choice == computer_choice) {
+            printf("平局！不计分，重新开始本局\n");
+            continue; // 平局不进入下一轮，重新开始本局
+        } else if ((player_choice == 1 && computer_choice == 2) ||
+                   (player_choice == 2 && computer_choice == 3) ||
+                   (player_choice == 3 && computer_choice == 1)) {
+            printf("你赢了这一局！\n");
+            player_score++;
+        } else {
+            printf("电脑赢了这一局！\n");
+            computer_score++;
+        }
+        
+        round++;
     }
-
+    
+    // 显示最终结果
+    printf("\n=== 游戏结束 ===\n");
+    printf("最终比分：玩家 %d - %d 电脑\n", player_score, computer_score);
+    if (player_score > computer_score) {
+        printf("恭喜你获得最终胜利！\n");
+    } else if (computer_score > player_score) {
+        printf("很遗憾，电脑获得了胜利！\n");
+    } else {
+        printf("平局！\n");
+    }
+    
     return 0;
 }
